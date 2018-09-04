@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
-  //just a comment
+    //just a comment
     /*public void changeFragment(View view){
         Fragment fragment;
         if (view == findViewById(R.id.addButton)) {
