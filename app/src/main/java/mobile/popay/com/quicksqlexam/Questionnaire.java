@@ -102,11 +102,10 @@ public class Questionnaire {
         this.mOption5 = mQ5;
     }
 
-
     private  String mQuestions []  = {
             "Which of the following SQL statement will SELECT all records with their columns from a table called sales ?",
             "Which of the following SQL statement will SELECT all records with their columns from a view called Order_v ?",
-            "You need to load information about new customers from the NEW_CUST tableinto the tables CUST and CUST_SPECIAL."
+            "You need to load information about new customers from the NEW_CUST table into the tables CUST and CUST_SPECIAL."
                     + "if a new customer has a credit limit greater than 10,000 then the details have to be inserted into CUST_SPECIAL" +
                     "all new details have to be inserted into the CUST table. Wich technique should be used to load the data most efficiently?",
     };
@@ -117,7 +116,7 @@ public class Questionnaire {
             {"A. External tables", "B. the MERGE command", "the multitable INSERT command", "INSERT using WITH CHECK OPTION"}
     };
 
-    private  String mCorrectAnswers[] =  {"select * from sales", "select * from Order_v", "select from orders_v"};
+    private  String mCorrectAnswers[] =  {"select * from sales", "select * from Order_v", "the multitable INSERT command"};
 
     public  String getQuestion(int a){
         return mQuestions[a];

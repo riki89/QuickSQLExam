@@ -25,12 +25,17 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <fragment
-            android:id="@+id/timer"
-            android:name="layout.FragmentTime"
+        <LinearLayout
+            android:id="@+id/timerFrag"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/fragment_time"/>
+            android:layout_height="wrap_content">
+            <fragment
+                android:id="@+id/timerF"
+                android:name="layout.FragmentTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout="@layout/fragment_time" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,8 +102,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
+                        android:layout_marginRight="0dp"
                         android:layout_weight="1"
                         android:text="Option 1"
+                        android:layout_gravity="start"
                         android:textAlignment="viewStart" />
 
                     <RadioButton
@@ -186,11 +193,12 @@
                 android:id="@+id/addButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="changeFragment"
                 android:paddingLeft="80dp"
                 android:paddingRight="70dp"
                 android:text="Add"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:visibility="invisible" />
+            <!-- android:onClick="changeFragment" -->
         </LinearLayout>
 
     </LinearLayout>
