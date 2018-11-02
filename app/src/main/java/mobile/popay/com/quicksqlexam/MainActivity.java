@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.lang.Runnable;
@@ -316,7 +317,7 @@ public class MainActivity extends AppCompatActivity
         public void run() {
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat simpleDateFormat =
-                    new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
+                    new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a", Locale.FRANCE);
             final String strDate = simpleDateFormat.format(calendar.getTime());
 
             runOnUiThread(new Runnable() {

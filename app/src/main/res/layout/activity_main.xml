@@ -58,19 +58,25 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="10dp"
                 android:layout_weight="0.76"
                 app:srcCompat="@android:drawable/screen_background_dark_transparent" />
 
-            <TextView
-                android:id="@+id/quizzQuest"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.08"
-                android:text="Select * from per_employees where emp_id = 12"
-                android:textAlignment="center"
-                android:textColor="@android:color/black" />
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/quizzQuest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.08"
+                    android:text="Select * from per_employees where emp_id = 12"
+                    android:layout_gravity="start"
+                    android:textAlignment="textStart"
+                    android:textColor="@android:color/black" />
+
+            </ScrollView>
         </LinearLayout>
 
         <LinearLayout
@@ -184,7 +190,8 @@
                 android:id="@+id/nextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="90dp"
+                android:layout_marginLeft="80dp"
+                android:paddingLeft="60dp"
                 android:paddingRight="60dp"
                 android:text="Next"
                 android:textColor="@color/colorAccent" />
@@ -213,7 +220,6 @@
             android:layout_height="wrap_content"
             tools:layout="@layout/edit_quizz"/>
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/answers_frag"
         android:layout_width="match_parent"
