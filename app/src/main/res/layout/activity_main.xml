@@ -53,14 +53,7 @@
                 android:layout_weight="0.08"
                 android:text="See the image and answer the question below"
                 android:textAlignment="center"
-                android:textColor="@android:color/black" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_weight="0.76"
-                app:srcCompat="@android:drawable/screen_background_dark_transparent" />
+                android:textColor="#fafafa" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -70,11 +63,11 @@
                     android:id="@+id/quizzQuest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
                     android:layout_weight="0.08"
                     android:text="Select * from per_employees where emp_id = 12"
-                    android:layout_gravity="start"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="#fafafa" />
 
             </ScrollView>
         </LinearLayout>
@@ -190,7 +183,7 @@
                 android:id="@+id/nextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="110dp"
                 android:paddingLeft="60dp"
                 android:paddingRight="60dp"
                 android:text="Next"
