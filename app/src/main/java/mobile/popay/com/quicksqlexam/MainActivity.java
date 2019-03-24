@@ -1,8 +1,10 @@
 package mobile.popay.com.quicksqlexam;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Xml;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,28 +16,43 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.lang.Runnable;
 import android.os.Handler;
 import android.os.SystemClock;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import layout.AnswerQuizz;
 import layout.EditQuizz;
-import layout.FragmentOne;
 import layout.FragmentTime;
-import layout.FragmentTwo;
+
+import static org.xmlpull.v1.XmlPullParserFactory.*;
 
 public class MainActivity extends AppCompatActivity
         implements FragmentTime.OnFragmentInteractionListener
                     ,AnswerQuizz.OnFragmentInteractionListener
                    ,EditQuizz.OnFragmentInteractionListener {
-    private  Questionnaire mQuestionLibrary = new Questionnaire();
+    //private  Questionnaire mQuestionLibrary = new Questionnaire();
+    Questionnaire mQuestionLibrary ;
     private  Questionnaire[] tabQuizz; //  = new Questionnaire[2];
     DBManager my_db;
+    String[] listQuizz;
+    String[] listOptions;
+    String[] listIdx;
+
     private LinearLayout fragmentMain;
     private LinearLayout fragmentAdd;
     private LinearLayout checkboxLayout;
@@ -55,15 +72,17 @@ public class MainActivity extends AppCompatActivity
     private RadioButton mRadio3;
     private RadioButton mRadio4;
 
+    private RadioButton[] mRadio;
+
     private TextView mScoreView;
-            TextView mTimer;
+    private TextView mTimer;
 
     private Button mButton;
     private Button mButtonAdd;
     private Button mButtonNxtQuizz;
     private Button mbuttonStart;
 
-    private String   mAnswer;
+    private String mAnswer;
     private int mScore = 0;
     private int mQuestionNumber = 0;
     private int nbQuizz = 3;
@@ -74,6 +93,11 @@ public class MainActivity extends AppCompatActivity
     private Spinner listeEntier;
     private ArrayAdapter<CharSequence> adapter;
     private ArrayAdapter<CharSequence> adapter2;
+    ArrayList<Questionnaire> questionnaires;
+    Iterator<Questionnaire> iterator;
+    ArrayList<CheckBox> listBox = new ArrayList<>();
+    ArrayList<RadioButton> listRadio = new ArrayList<>();
+
 
     //
     Timer timer;
@@ -117,7 +141,33 @@ public class MainActivity extends AppCompatActivity
         mRadio3 = (RadioButton)findViewById(R.id.radioButton3);
         mRadio4 = (RadioButton)findViewById(R.id.radioButton4);
 
-        spinner3 = (Spinner) findViewById(R.id.spinner3);
+        mQuestionLibrary = new Questionnaire();
+        try {
+            questionnaires = ParseXML();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        iterator = questionnaires.iterator();
+        Questionnaire question = new Questionnaire();
+        if (iterator.hasNext()){
+            question = iterator.next();
+        }else
+        {
+            Toast.makeText(this, "Aucune question trouvée", Toast.LENGTH_SHORT).show();
+        }
+        listRadio.add(mRadio1);
+        listRadio.add(mRadio2);
+        listRadio.add(mRadio3);
+        listRadio.add(mRadio4);
+
+        listBox.add(mButtonChoice1);
+        listBox.add(mButtonChoice2);
+        listBox.add(mButtonChoice3);
+        listBox.add(mButtonChoice4);
+
+        updateView(question);
+
+        /*spinner3 = (Spinner) findViewById(R.id.spinner3);
         // Create an ArrayAdapter using the string array and a default spinner layout
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.questions, android.R.layout.simple_spinner_item);
@@ -143,68 +193,24 @@ public class MainActivity extends AppCompatActivity
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         listeEntier.setAdapter(adapter2);
-
-        updateQuestion();
-        updateLevel();
-        updateRadio();
-        //lancer le temps
-        timer = new Timer();
-        myTimerTask = new MyTimerTask();
-        //Toast.makeText(MainActivity.this, "X2-2x+1=0; a pour racine: "+mQuestionLibrary.racine(1,-2,1), Toast.LENGTH_LONG).show();
-
-        //creation de question
-        tabQuizz = new Questionnaire[2];
-        mQuestionLibrary = new Questionnaire();
-
-        mQuestionLibrary.setmQuestion("Which of the following SQL statement will SELECT all records with their columns from a table called sales ?");
-        mQuestionLibrary.setmRep("select * from sales");
-        mQuestionLibrary.setmOption1("select * from sales");
-        mQuestionLibrary.setmOption2("select * from sales where 1=1");
-        mQuestionLibrary.setmOption3("select from saless");
-        mQuestionLibrary.setmOption4("select all from sales_t");
-        mQuestionLibrary.setTypeRep("radio");
-
-        tabQuizz[0] = mQuestionLibrary;
-        tabQuizz[1] = mQuestionLibrary;
-
-
+*/
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mTypeRep == "radio") {
-                    if (checkboxLayout.getVisibility() == View.GONE){
-                        radioLayout.setVisibility(View.GONE);
-                        checkboxLayout.setVisibility(View.VISIBLE);
+                Questionnaire question;
+                if (iterator.hasNext()){
+                    question = iterator.next();
+                    if (question.getId() == mQuestionNumber){
+                        question = iterator.next();
                     }
-                    int selectedRadio = grpRadio.getCheckedRadioButtonId();
-                    RadioButton rbtn = (RadioButton)findViewById(selectedRadio);
-                    if (rbtn.getText().equals(mAnswer) ){
-                        Toast.makeText(MainActivity.this, "Good answer", Toast.LENGTH_LONG).show();
-                    }
-                    else
-                        Toast.makeText(MainActivity.this, "Wrong answer", Toast.LENGTH_LONG).show();
-                    mQuestionNumber = mQuestionNumber + 1;
-                    //updateRadio();
-                    mTypeRep = "checkbox";
-                    updateQuestion();
+                    showLayout(question.getTypeRep());
+                    updateView(question);
+                } else {
+                    Toast.makeText(MainActivity.this, "Fin du Test", Toast.LENGTH_LONG).show();
                 }
-                else if (mTypeRep == "checkbox"){
-                    if (radioLayout.getVisibility() == View.GONE){
-                        checkboxLayout.setVisibility(View.GONE);
-                        radioLayout.setVisibility(View.VISIBLE);
-                    }
-                    mQuestionNumber = mQuestionNumber + 1;
-                    //updateQuestion();
-                    mTypeRep =  "radio";
-                    updateRadio();
-                }else{
-                    Toast.makeText(MainActivity.this, "Choose an option please!", Toast.LENGTH_LONG).show();
-                    updateQuestion();
-                }
-                updateLevel();
-
             }
-        }); //end nextButton listner
+        });
+
         mButtonAdd.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -222,19 +228,164 @@ public class MainActivity extends AppCompatActivity
                 fragmentAnswers.setVisibility(View.VISIBLE);
             }
         });
-        mbuttonStart.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                if (mbuttonStart.getText().equals("START")){
-                    mbuttonStart.setText("STOP");
-                    startTime = SystemClock.uptimeMillis();
-                    customHandler.postDelayed(updateTimerThread, 0);
-                }else{
-                    mbuttonStart.setText("START");
-                    mTimer.setText("00:00");
-                }
-            }
-        });
     }
+
+    public void setRadioText(Questionnaire q, ArrayList<RadioButton> radio){
+        Iterator<RadioButton> iterator1 = radio.iterator();
+        int i = 1;
+        while(iterator1.hasNext()){
+            switch (i){
+                case 1: iterator1.next().setText(q.getmOption1());
+                break;
+                case 2: iterator1.next().setText(q.getmOption2());
+                break;
+                case 3: iterator1.next().setText(q.getmOption3());
+                    break;
+                case 4: iterator1.next().setText(q.getmOption4());
+                    break;
+            }
+            i += 1;
+        }
+    }
+
+    public void setBoxText(Questionnaire q, ArrayList<CheckBox> radio){
+        Iterator<CheckBox> iterator1 = radio.iterator();
+        int i = 1;
+        while(iterator1.hasNext()){
+            switch (i){
+                case 1: iterator1.next().setText(q.getmOption1());
+                    break;
+                case 2: iterator1.next().setText(q.getmOption2());
+                    break;
+                case 3: iterator1.next().setText(q.getmOption3());
+                    break;
+                case 4: iterator1.next().setText(q.getmOption4());
+                    break;
+            }
+            i += 1;
+        }
+    }
+
+
+    public  void updateView(Questionnaire question){
+        if (question.getTypeRep().equals("radio")){
+            setRadioText(question, listRadio);
+        }else if (question.getTypeRep().equals("checkbox")){
+            setBoxText(question, listBox);
+        } else Toast.makeText(this, "type de question "+question.getTypeRep()+"non pris en compte"
+                , Toast.LENGTH_SHORT).show();
+
+        mquizzQuest.setText(question.getmQuestion());
+        mAnswer = question.getmRep();
+        mQuestionNumber = question.getId();
+        nbQuizz = questionnaires.size();
+        updateLevel();
+    }
+    public void showLayout(String typeRep){
+        if (typeRep.equals("radio")) {
+            if (checkboxLayout.getVisibility() == View.GONE){
+                radioLayout.setVisibility(View.GONE);
+                checkboxLayout.setVisibility(View.VISIBLE);
+            }
+            int selectedRadio = grpRadio.getCheckedRadioButtonId();
+            RadioButton rbtn = (RadioButton)findViewById(selectedRadio);
+            if (rbtn.getText().equals(mAnswer)){
+                Toast.makeText(MainActivity.this, "Good answer", Toast.LENGTH_LONG).show();
+            }
+            else
+                Toast.makeText(MainActivity.this, "Wrong answer", Toast.LENGTH_LONG).show();
+            //mQuestionNumber = mQuestionNumber + 1;
+        } else if (typeRep.equals("checkbox")){
+            if (radioLayout.getVisibility() == View.GONE){
+                checkboxLayout.setVisibility(View.GONE);
+                radioLayout.setVisibility(View.VISIBLE);
+            }
+        } else {
+            Toast.makeText(MainActivity.this, "Choose an option please!", Toast.LENGTH_LONG).show();
+        }
+        //mQuestionNumber = mQuestionNumber + 1;
+    }
+
+    private ArrayList<Questionnaire> ParseXML() throws IOException {
+        XmlPullParserFactory parserFactory;
+
+        try {
+            parserFactory = newInstance();
+            XmlPullParser parser = parserFactory.newPullParser();
+            InputStream is = null;
+            try {
+                is = getAssets().open("questions.xml");
+                //Toast.makeText(MainActivity.this, "file opened: ", Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(is, null);
+
+            questionnaires = processParsing(parser);
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
+        return questionnaires;
+    }
+
+    private ArrayList<Questionnaire> processParsing(XmlPullParser parser) throws IOException, XmlPullParserException{
+        questionnaires = new ArrayList<>();
+        int eventType = parser.getEventType();
+        Questionnaire currentQuestion = null;
+
+        while (eventType != XmlPullParser.END_DOCUMENT){
+            String eltName = null;
+
+            switch (eventType){
+                case XmlPullParser.START_TAG:
+                    eltName = parser.getName();
+                    if ("question".equals(eltName)){
+                        currentQuestion = new Questionnaire();
+                        questionnaires.add(currentQuestion);
+                    } else if (currentQuestion != null){
+                        if ("id".equals(eltName)){
+                            currentQuestion.setId(Integer.parseInt(parser.nextText().toString()));
+                        }else if ("type".equals(eltName)){
+                            currentQuestion.setTypeRep(parser.nextText());
+                        }else if ("libelle".equals(eltName)){
+                            currentQuestion.setmQuestion(parser.nextText());
+                        }else if ("good".equals(eltName)){
+                            currentQuestion.setmRep(parser.nextText());
+                        }else if ("option1".equals(eltName)){
+                            currentQuestion.setmOption1(parser.nextText());
+                        }else if ("option2".equals(eltName)){
+                            currentQuestion.setmOption2(parser.nextText());
+                        }else if ("option3".equals(eltName)){
+                            currentQuestion.setmOption3(parser.nextText());
+                        }else if ("option4".equals(eltName)){
+                            currentQuestion.setmOption4(parser.nextText());
+                        }
+                    }
+                    break;
+            }
+            eventType = parser.next();
+        }
+        //printQuestions(questionnaires);
+        return questionnaires;
+    }
+
+    private void printQuestions(ArrayList<Questionnaire> questionnaires){
+        StringBuilder builder = new StringBuilder();
+
+        for (Questionnaire q: questionnaires){
+            builder.append(q.getId()).append("\n").
+                    append(q.getmQuestion()).append("\n").
+                    append(q.getmOption1()).append("\n").
+                    append(q.getmOption2()).append("\n").
+                    append(q.getmOption3()).append("\n").
+                    append(q.getmOption4()).append("\n");
+           // this.questionnaires.add(q) ;
+            //mquizzQuest.setText(q.getTypeRep()+"\n"+q.getmQuestion()+"\n"+q.getmOption4());
+        }
+
+    }
+
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
@@ -272,6 +423,7 @@ public class MainActivity extends AppCompatActivity
         if (mQuestionNumber == nbQuizz) {
             //Toast.makeText(MainActivity.this, "Fin du Test", Toast.LENGTH_LONG).show();
             mQuestionNumber = 0;
+
             updateQuestion();
         }
         else{
@@ -285,9 +437,68 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private  void updateLevel(){
+        mScoreView.setText(""+mQuestionNumber+"/"+nbQuizz);
+    }
+
+    //**
+    private void updateQuestion_v2(){
+        //mquizzQuest.setText(iterator.next().getTypeRep());
+
+        //mTypeRep = "checkbox"; //iterator.next().getTypeRep();
+        if (!iterator.hasNext()) {
+            Toast.makeText(MainActivity.this, "Fin du Test", Toast.LENGTH_LONG).show();
+            mQuestionNumber = 0;
+            updateRadio_v2();
+        }
+        else if (iterator.next().getTypeRep() == "checkbox"){
+            mquizzQuest.setText(""+iterator.next().getmQuestion());
+            mButtonChoice1.setText(""+iterator.next().getmOption1());
+            mButtonChoice2.setText(""+iterator.next().getmOption2());
+            mButtonChoice3.setText(""+iterator.next().getmOption3());
+            mButtonChoice4.setText(""+iterator.next().getmOption4());
+
+            mAnswer = iterator.next().getmRep();
+
+            //mAnswer = mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
+        }else if (iterator.next().getTypeRep() == "radio"){
+            mquizzQuest.setText(""+iterator.next().getmQuestion());
+            mRadio1.setText(""+iterator.next().getmOption1());
+            mRadio2.setText(""+iterator.next().getmOption2());
+            mRadio3.setText(""+iterator.next().getmOption3());
+            mRadio4.setText(""+iterator.next().getmOption4());
+
+            mAnswer = iterator.next().getmRep();
+                    //mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
+        }
+        else Toast.makeText(MainActivity.this, "Erreur inconnue", Toast.LENGTH_LONG).show();
+
+    }
+    //
+    private void updateRadio_v2(){
+        if (mQuestionNumber == nbQuizz) {
+            //Toast.makeText(MainActivity.this, "Fin du Test", Toast.LENGTH_LONG).show();
+            mQuestionNumber = 0;
+            updateQuestion_v2();
+        }
+        else{
+            mquizzQuest.setText(""+mQuestionLibrary.getQuestion(mQuestionNumber));
+            mRadio1.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 0));
+            mRadio2.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 1));
+            mRadio3.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 2));
+            mRadio4.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 3));
+
+            mAnswer = mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
+        }
+    }
+    /*
     private  void updateLevel(){
         mScoreView.setText(""+(mQuestionNumber+1)+"/"+nbQuizz);
     }
+    */
+
+    //**
 
     @Override
     public void onFragmentInteraction(Uri uri) {

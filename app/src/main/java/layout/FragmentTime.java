@@ -3,11 +3,23 @@ package layout;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimerTask;
+import java.lang.Runnable;
+
+import mobile.popay.com.quicksqlexam.MainActivity;
 import mobile.popay.com.quicksqlexam.R;
 
 /**
@@ -27,6 +39,16 @@ public class FragmentTime extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Handler mCustumerHandler = new Handler();
+    MyTimerTask myTimerTask;
+    private long startTime = 0L;
+    private Handler customHandler = new Handler();
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+
+    private TextView mTimer;
+    private Button startButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,7 +81,45 @@ public class FragmentTime extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //mTimer  = (TextView)getView().findViewById(R.id.timer);
+
     }
+
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        mTimer = (TextView) getView().findViewById(R.id.timer);
+        // or  (ImageView) view.findViewById(R.id.foo);
+        startButton = (Button)getView().findViewById(R.id.startButton);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (startButton.getText().equals("START")){
+                    startButton.setText("STOP");
+                    //j"myTimerTask.cancel();
+                    startTime = SystemClock.uptimeMillis();
+                    customHandler.postDelayed(updateTimerThread, 0);
+
+                } else{
+                    startButton.setText("START");
+                    mTimer.setText("00:00");
+                }
+            }
+        });
+    }
+    private Runnable updateTimerThread = new Runnable() {
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            mTimer.setText("" + mins + ":"
+                            + String.format("%02d", secs)
+                    //+ String.format("%03d", milliseconds)
+            );
+            customHandler.postDelayed(this, 0);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,5 +165,24 @@ public class FragmentTime extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat simpleDateFormat =
+                    new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a", Locale.FRANCE);
+            final String strDate = simpleDateFormat.format(calendar.getTime());
+
+            getActivity().runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    mTimer.setText(strDate);
+                }
+            });
+        }
     }
 }

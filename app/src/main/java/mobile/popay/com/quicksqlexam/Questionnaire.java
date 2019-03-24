@@ -3,7 +3,11 @@ package mobile.popay.com.quicksqlexam;
 /**
  * Created by mac on 08/11/2017.
  */
-import  java.math.*;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import modele.Question;
 
 public class Questionnaire {
     public static final String TABLE = "Questionnaire";
@@ -25,82 +29,59 @@ public class Questionnaire {
     private String mQuestion;
     private String mRep;
     private String typeRep;
+    private String[][] options;
     private String mOption1;
     private String mOption2;
     private String mOption3;
     private String mOption4;
     private String mOption5;
 
-    //getters and setters
+    // getters and setters
 
 
-    public int getId() {
-        return numquizz;
-    }
+    public int getId() { return numquizz; }
 
-    public void setId(int id) {
-        this.numquizz = id;
-    }
+    public void setId(int id) { this.numquizz = id; }
 
     public void setImgQuizz(String img) { this.imgQuizz = img;}
 
-    public String getImgQuizz() { return imgQuizz;}
+    public String getImgQuizz() { return this.imgQuizz;}
 
-    public String getmRep() {
-        return mRep;
-    }
+    public String getmRep() { return this.mRep; }
 
-    public void setmRep(String mRep) {
-        this.mRep = mRep;
-    }
+    public void setmRep(String mRep) { this.mRep = mRep; }
 
-    public String getmQuestion() {
-        return mQuestion;
-    }
+    public String getmQuestion() { return this.mQuestion; }
 
-    public void setmQuestion(String mQ1) {
-        this.mQuestion = mQ1;
-    }
+    public void setmQuestion(String mQ1) { this.mQuestion = mQ1; }
 
     public  String getTypeRep(){return  this.typeRep;}
 
     public  void  setTypeRep(String typeRep){ this.typeRep = typeRep;}
 
-    public String getmOption1() { return mOption1; }
+    public String getmOption1() { return this.mOption1; }
 
-    public void setmOption1(String mQ1) {
-        this.mOption1 = mQ1;
-    }
+    public void setmOption1(String mQ1) { this.mOption1 = mQ1; }
 
-    public String getmOption2() { return mOption2; }
+    public String getmOption2() { return this.mOption2; }
 
-    public void setmOption2(String mQ2) {
-        this.mOption2 = mQ2;
-    }
+    public void setmOption2(String mQ2) { this.mOption2 = mQ2; }
 
-    public String getmOption3() {
-        return mOption3;
-    }
+    public String getmOption3() { return this.mOption3; }
 
-    public void setmOption3(String mQ3) {
-        this.mOption3 = mQ3;
-    }
+    public void setmOption3(String mQ3) { this.mOption3 = mQ3; }
 
-    public String getmOption4() {
-        return mOption4;
-    }
+    public String getmOption4() { return this.mOption4; }
 
-    public void setmOption4(String mQ4) {
-        this.mOption4 = mQ4;
-    }
+    public void setmOption4(String mQ4) { this.mOption4 = mQ4; }
 
-    public String getmOption5() {
-        return mOption5;
-    }
+    public String getmOption5() { return this.mOption5; }
 
-    public void setmOption5(String mQ5) {
-        this.mOption5 = mQ5;
-    }
+    public void setmOption5(String mQ5) { this.mOption5 = mQ5; }
+
+    /*public String getCorrectAns(String quizz, String[] ops, int idx){
+
+    }*/
 
     private  String mQuestions []  = {
             "Which of the following SQL statement will SELECT all records with their columns from a table called sales ?",
@@ -122,17 +103,6 @@ public class Questionnaire {
         return mQuestions[a];
     }
 
-    public  String  getChoice1(int a){
-        return  mChoices[a][0];
-    }
-    public  String  getChoice2(int a){
-        return  mChoices[a][1];
-    }
-    public  String  getChoice3(int a){
-        return  mChoices[a][2];
-    }
-    public  String  getChoice4(int a) { return  mChoices[a][3]; }
-    public  String  getChoice5(int a) { return  mChoices[a][4]; }
     public  String  getChoice(int a, int choice){
         //double b = Math.sqrt(2);
         return  mChoices[a][choice];
@@ -141,21 +111,30 @@ public class Questionnaire {
     public  String getCorrectAnswer(int a){
         return mCorrectAnswers[a];
     }
+
     public double racine(float a, float b, float c){
         //ax2 + bx + C = 0
-        double x1, x2,x0;
-        double delta = b*b - 4*a*c;
-        if (delta >0)
-        {
-            x1 = ((-b)- Math.sqrt(delta))/(2*a);
-            x2 = ((-b)+delta)/(2*a);
-            return  x1;
+        if (a == 0 ) {
+            if (b == 0)
+                return 0;
+            else
+                return -c / b;
+        }else {
+            double x1, x2,x0;
+            double delta = b*b - 4*a*c;
+            if (delta >0)
+            {
+                x1 = ((-b)- Math.sqrt(delta))/(2*a);
+                x2 = ((-b)+delta)/(2*a);
+                return  x1;
+            }
+            if (delta ==0)
+            {
+                x0 =(-b)/(2*a);
+                return x0;
+            }
+            return  0;
         }
-        if (delta ==0)
-        {
-            x0 =(-b)/(2*a);
-            return x0;
-        }
-        return  0;
+
     }
 }

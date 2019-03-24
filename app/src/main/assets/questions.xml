@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<questions>
+    <question>
+        <id>1</id>
+        <type>radio</type>
+        <libelle>Que signifie SQL?</libelle>
+        <option1>Structured Query Language</option1>
+        <option2>Select Query Language</option2>
+        <option3>Select Quality Language</option3>
+        <option4>Structured Quality Language</option4>
+        <good>Structured Query Language</good>
+    </question>
+    <question>
+        <id>2</id>
+        <type>checkbox</type>
+        <libelle>Who's the best player in the world?</libelle>
+        <option1>Cr7</option1>
+        <option2>Messi</option2>
+        <option3>Drogba</option3>
+        <option4>Sadio Mane</option4>
+        <good>Messi</good>
+    </question>
+    <question>
+        <id>3</id>
+        <type>radio</type>
+        <libelle>What's the name of Guinean Capital?</libelle>
+        <option1>Dakar</option1>
+        <option2>Conakry</option2>
+        <option3>Monrovia</option3>
+        <option4>Tokyo</option4>
+        <good>Conakry</good>
+    </question>
+    <question>
+        <id>4</id>
+        <type>radio</type>
+        <libelle>Who's the most complicated between my friends?</libelle>
+        <option1>Ablay</option1>
+        <option2>Abdul</option2>
+        <option3>Malick</option3>
+        <option4>Assan</option4>
+        <good>Malick</good>
+    </question>
+</questions>

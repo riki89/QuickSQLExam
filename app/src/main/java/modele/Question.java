@@ -17,7 +17,7 @@ public class Question {
     public static final String KEY_type      = "type";
     public static final String KEY_nb_option = "nb_option";
     //attributs
-    private int num;
+    private int num = 0;
     private String title;
     private String contents;
     private String img;

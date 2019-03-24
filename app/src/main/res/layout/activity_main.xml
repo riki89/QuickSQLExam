@@ -43,7 +43,6 @@
             android:layout_weight="0.29"
             android:background="@android:color/darker_gray"
             android:orientation="vertical"
-            android:visibility="visible"
             android:weightSum="1">
 
             <TextView
@@ -65,11 +64,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_weight="0.08"
-                    android:autoText="true"
-                    android:text="Select * from per_employees where emp_id = 12"
-                    android:textAlignment="textStart"
+                    android:textAlignment="center"
                     android:textColor="#fafafa" />
-
             </ScrollView>
         </LinearLayout>
 
