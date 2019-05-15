@@ -3,7 +3,7 @@
     <question>
         <id>1</id>
         <type>radio</type>
-        <libelle>Que signifie SQL?</libelle>
+        <libelle>What does SQL means?</libelle>
         <option1>Structured Query Language</option1>
         <option2>Select Query Language</option2>
         <option3>Select Quality Language</option3>
@@ -13,31 +13,178 @@
     <question>
         <id>2</id>
         <type>checkbox</type>
-        <libelle>Who's the best player in the world?</libelle>
-        <option1>Cr7</option1>
-        <option2>Messi</option2>
-        <option3>Drogba</option3>
-        <option4>Sadio Mane</option4>
-        <good>Messi</good>
+        <libelle>The BETWEEN SQL keywords specifies ...</libelle>
+        <option1>a list of values.</option1>
+        <option2>a column list.</option2>
+        <option3>a range to test in the SQL query search condition.</option3>
+        <good>3</good>
     </question>
     <question>
         <id>3</id>
         <type>radio</type>
-        <libelle>What's the name of Guinean Capital?</libelle>
-        <option1>Dakar</option1>
-        <option2>Conakry</option2>
-        <option3>Monrovia</option3>
-        <option4>Tokyo</option4>
+        <libelle>Which of the following SQL statements deletes all rows in table called SalesData?</libelle>
+        <option1>DELETE SalesData</option1>
+        <option2>DELETE FROM SalesData</option2>
+        <option3>DELETE * FROM SalesData</option3>
+        <option4>DELETE ALL SalesData</option4>
         <good>Conakry</good>
     </question>
     <question>
         <id>4</id>
         <type>radio</type>
-        <libelle>Who's the most complicated between my friends?</libelle>
-        <option1>Ablay</option1>
-        <option2>Abdul</option2>
-        <option3>Malick</option3>
-        <option4>Assan</option4>
+        <libelle>What is a stored procedure?</libelle>
+        <option1>A set of SQL statements stored and executed as a single entity.</option1>
+        <option2>A process for data export/import.</option2>
+        <option3>Data stored in a database.</option3>
         <good>Malick</good>
+    </question>
+    <question>
+        <id>5</id>
+        <type>radio</type>
+        <libelle>Which of the following SQL clauses is used to sort a result set?</libelle>
+        <option1>SORT</option1>
+        <option2>ARRANGE</option2>
+        <option3>ORDER BY</option3>
+        <good>Malick</good>
+    </question>
+    <question>
+        <id>6</id>
+        <type>radio</type>
+        <libelle>The NULL SQL keyword is used to ...</libelle>
+        <option1>represent a missing or unknown value. NULL in SQL represents nothing.</option1>
+        <option2>represent 0 value.</option2>
+        <option3>represent positive infinity.</option3>
+        <good>represent negative infinity.</good>
+    </question>
+    <question>
+        <id>7</id>
+        <type>radio</type>
+        <libelle>The NULL SQL keyword is used to ...</libelle>
+        <option1>represent a missing or unknown value. NULL in SQL represents nothing.</option1>
+        <option2>represent 0 value.</option2>
+        <option3>represent positive infinity.</option3>
+        <good>1</good>
+    </question>
+    <question>
+        <id>8</id>
+        <type>radio</type>
+        <libelle>The JOIN is a SQL keyword used to ...</libelle>
+        <option1>verify that the inserted data is correct.</option1>
+        <option2>delete data from database table.</option2>
+        <option3>select data from 2 or more tables related by common attribute (table column).</option3>
+        <option4>update database table.</option4>
+        <good>3</good>
+    </question>
+    <question>
+        <id>9</id>
+        <type>radio</type>
+        <libelle>Which SQL statement selects all rows from table called Contest, with column ContestDate having values greater or equal to May 25, 20006?</libelle>
+        <option1>SELECT * FROM Contest HAVING ContestDate >= '05/25/2006'</option1>
+        <option2>SELECT * FROM Contest WHERE ContestDate >= '05/25/2006'</option2>
+        <option3>SELECT * FROM Contest WHERE ContestDate < '05/25/2006'</option3>
+        <good>2</good>
+    </question>
+    <question>
+        <id>10</id>
+        <type>radio</type>
+        <libelle>When inserting data in a table do you always have to specify a list of all column names you are inserting values for?</libelle>
+        <option1>Yes</option1>
+        <option2>No</option2>
+        <good>2</good>
+    </question>
+    <question>
+        <id>11</id>
+        <type>radio</type>
+        <libelle>Which of the following SQL clauses is used to DELETE data from a database table?</libelle>
+        <option1>DROP DATA</option1>
+        <option2>REMOVE</option2>
+        <option3>DELETE</option3>
+        <option4>CLEAR</option4>
+        <good>3</good>
+    </question>
+    <question>
+        <id>12</id>
+        <type>radio</type>
+        <libelle>Which of the following SQL clauses is used to DELETE data from a database table?</libelle>
+        <option1>DROP DATA</option1>
+        <option2>REMOVE</option2>
+        <option3>DELETE</option3>
+        <option4>CLEAR</option4>
+        <good>3</good>
+    </question>
+    <question>
+        <id>13</id>
+        <type>radio</type>
+        <libelle>What does the ALTER TABLE clause do?</libelle>
+        <option1>The SQL ALTER TABLE clause is used to insert data into database table.</option1>
+        <option2>The SQL ALTER TABLE clause modifies a table definition by altering, adding, or deleting table columns and/or constraints.</option2>
+        <option3>THE SQL ALTER TABLE deletes data from database table.</option3>
+        <option4>The SQL ALTER TABLE clause is used to delete a database table.</option4>
+        <good>2</good>
+    </question>
+    <question>
+        <id>14</id>
+        <type>radio</type>
+        <libelle>Which of the following is a reserved SQL keyword?</libelle>
+        <option1>GROWN</option1>
+        <option2>FROM</option2>
+        <option3>UPDATING</option3>
+        <option4>DELETING</option4>
+        <good>2</good>
+    </question>
+    <question>
+        <id>15</id>
+        <type>radio</type>
+        <libelle>What is a primary key?</libelle>
+        <option1>The primary key column is a column or combination of columns whose values can be non-unique.</option1>
+        <option2>The primary key is a column or combination of columns whose values uniquely identify each row in the table.</option2>
+        <option3>The primary key is a column that can have NULL values.</option3>
+        <good>2</good>
+    </question>
+    <question>
+        <id>16</id>
+        <type>radio</type>
+        <libelle>The INNER JOIN clause...</libelle>
+        <option1>returns all rows that have matching value in the field on which the 2 tables are joined.</option1>
+        <option2>returns only the rows from the first table, which have non-matching values with the second table in the field on which the 2 tables are joined.</option2>
+        <option3>returns all rows from 2 tables.</option3>
+        <good>1</good>
+    </question>
+    <question>
+        <id>17</id>
+        <type>radio</type>
+        <libelle>The SQL DROP TABLE clause is used to...</libelle>
+        <option1>modify an existing table in a database</option1>
+        <option2>delete a table from the database</option2>
+        <option3>create a new table in the database</option3>
+        <good>2</good>
+    </question>
+    <question>
+        <id>18</id>
+        <type>radio</type>
+        <libelle>What is the difference between the WHERE and HAVING SQL clauses?</libelle>
+        <option1>The WHERE and the HAVING clauses are identical</option1>
+        <option2>The WHERE SQL clause condition(s) is applied to all rows in the result set before the HAVING clause is applied (if present). The HAVING clause is used only with SELECT SQL statements and specifies a search condition for an aggregate or a group.</option2>
+        <option3>The HAVING SQL clause condition(s) is applied to all rows in the result set before the WHERE clause is applied (if present). The WHERE clause is used only with SELECT SQL statements and specifies a search condition for an aggregate or a group.</option3>
+        <good>2</good>
+    </question>
+    <question>
+        <id>19</id>
+        <type>radio</type>
+        <libelle>The CREATE TABLE statement is used to...</libelle>
+        <option1>create a new database table.</option1>
+        <option2>change existing database table</option2>
+        <option3>create a new database.</option3>
+        <good>1</good>
+    </question>
+    <question>
+        <id>20</id>
+        <type>radio</type>
+        <libelle>Which of the following SQL statements deletes all rows in table called myTable?</libelle>
+        <option1>DELETE myTable</option1>
+        <option2>DELETE ALL myTable</option2>
+        <option3>DELETE * FROM myTable</option3>
+        <option4>DELETE FROM myTable</option4>
+        <good>4</good>
     </question>
 </questions>

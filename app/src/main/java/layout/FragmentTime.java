@@ -88,9 +88,9 @@ public class FragmentTime extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mTimer = (TextView) getView().findViewById(R.id.timer);
         // or  (ImageView) view.findViewById(R.id.foo);
-        startButton = (Button)getView().findViewById(R.id.startButton);
+        //startButton = (Button)getView().findViewById(R.id.startButton);
 
-        startButton.setOnClickListener(new View.OnClickListener() {
+        /*startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (startButton.getText().equals("START")){
                     startButton.setText("STOP");
@@ -102,8 +102,8 @@ public class FragmentTime extends Fragment {
                     startButton.setText("START");
                     mTimer.setText("00:00");
                 }
-            }
-        });
+           }
+        });*/
     }
     private Runnable updateTimerThread = new Runnable() {
         public void run() {

@@ -38,6 +38,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import layout.AnswerQuizz;
 import layout.EditQuizz;
 import layout.FragmentTime;
+import modele.Question;
 
 import static org.xmlpull.v1.XmlPullParserFactory.*;
 
@@ -45,8 +46,6 @@ public class MainActivity extends AppCompatActivity
         implements FragmentTime.OnFragmentInteractionListener
                     ,AnswerQuizz.OnFragmentInteractionListener
                    ,EditQuizz.OnFragmentInteractionListener {
-    //private  Questionnaire mQuestionLibrary = new Questionnaire();
-    Questionnaire mQuestionLibrary ;
     private  Questionnaire[] tabQuizz; //  = new Questionnaire[2];
     DBManager my_db;
     String[] listQuizz;
@@ -76,6 +75,7 @@ public class MainActivity extends AppCompatActivity
 
     private TextView mScoreView;
     private TextView mTimer;
+    private TextView mScoreNet;
 
     private Button mButton;
     private Button mButtonAdd;
@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity
     Iterator<Questionnaire> iterator;
     ArrayList<CheckBox> listBox = new ArrayList<>();
     ArrayList<RadioButton> listRadio = new ArrayList<>();
-
+    Iterator<RadioButton> rdIterator;
+    Iterator<CheckBox> bxIterator;
 
     //
     Timer timer;
@@ -121,10 +122,10 @@ public class MainActivity extends AppCompatActivity
         fragmentAnswers = (LinearLayout)findViewById(R.id.answers_frag);
         fragmentTimer   = (LinearLayout)findViewById(R.id.timerFrag);
 
-
         mquizzQuest     = (TextView)findViewById(R.id.quizzQuest);
         mScoreView      = (TextView)findViewById(R.id.score);
-        mTimer        = (TextView)findViewById(R.id.timer);
+        mTimer          = (TextView)findViewById(R.id.timer);
+        mScoreNet       = (TextView)findViewById(R.id.myscore);
 
         mButtonChoice1 = (CheckBox)findViewById(R.id.checkBox);
         mButtonChoice2 = (CheckBox)findViewById(R.id.checkBox2);
@@ -134,14 +135,13 @@ public class MainActivity extends AppCompatActivity
         mButton        = (Button)findViewById(R.id.nextButton);
         mButtonAdd     = (Button)findViewById(R.id.addButton);
         mButtonNxtQuizz= (Button)findViewById(R.id.button);
-        mbuttonStart = (Button)findViewById(R.id.startButton);
+        //mbuttonStart = (Button)findViewById(R.id.startButton);
 
         mRadio1 = (RadioButton)findViewById(R.id.radioButton1);
         mRadio2 = (RadioButton)findViewById(R.id.radioButton2);
         mRadio3 = (RadioButton)findViewById(R.id.radioButton3);
         mRadio4 = (RadioButton)findViewById(R.id.radioButton4);
 
-        mQuestionLibrary = new Questionnaire();
         try {
             questionnaires = ParseXML();
         } catch (IOException e) {
@@ -165,9 +165,15 @@ public class MainActivity extends AppCompatActivity
         listBox.add(mButtonChoice3);
         listBox.add(mButtonChoice4);
 
-        updateView(question);
+        rdIterator = listRadio.iterator();
+        bxIterator = listBox.iterator();
 
-        /*spinner3 = (Spinner) findViewById(R.id.spinner3);
+        //showLayout(question);
+        updateView(question);
+        //questionnaires.remove(0);
+
+        /*
+        spinner3 = (Spinner) findViewById(R.id.spinner3);
         // Create an ArrayAdapter using the string array and a default spinner layout
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.questions, android.R.layout.simple_spinner_item);
@@ -197,17 +203,24 @@ public class MainActivity extends AppCompatActivity
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Questionnaire question;
+                Questionnaire question = null;
                 if (iterator.hasNext()){
-                    question = iterator.next();
-                    if (question.getId() == mQuestionNumber){
-                        question = iterator.next();
-                    }
-                    showLayout(question.getTypeRep());
+                    question= iterator.next();
                     updateView(question);
+                    initChekedButton();
+                    //showLayout(question);
                 } else {
                     Toast.makeText(MainActivity.this, "Fin du Test", Toast.LENGTH_LONG).show();
                 }
+
+               /* if (question.getTypeRep().equals("radio")){
+                    int selectedRadio = grpRadio.getCheckedRadioButtonId();
+                    RadioButton rbtn = (RadioButton)findViewById(selectedRadio);
+                    if (rbtn.getText().equals(question.getmRep()) ) {
+                        Toast.makeText(MainActivity.this, "Good answer", Toast.LENGTH_LONG).show();
+                    } else Toast.makeText(MainActivity.this,"Wrong answer", Toast.LENGTH_SHORT).show();
+                }*/
+
             }
         });
 
@@ -230,80 +243,107 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void setRadioText(Questionnaire q, ArrayList<RadioButton> radio){
-        Iterator<RadioButton> iterator1 = radio.iterator();
+    public void initChekedButton(){
+            int selectedRadio = grpRadio.getCheckedRadioButtonId();
+            if (selectedRadio != -1){
+                RadioButton rbtn = (RadioButton)findViewById(selectedRadio);
+                rbtn.setChecked(false);
+            }
+            if (mButtonChoice1.isChecked()){ mButtonChoice1.setChecked(false);}
+            if (mButtonChoice2.isChecked()){ mButtonChoice2.setChecked(false);}
+            if (mButtonChoice3.isChecked()){ mButtonChoice3.setChecked(false);}
+            if (mButtonChoice4.isChecked()){ mButtonChoice4.setChecked(false);}
+    }
+
+    public void updateScore(Questionnaire q){
+        switch (q.getTypeRep()){
+            case "radio":
+        }
+        mScoreNet.setText(mScoreNet.getText()+ " "+10);
+    }
+
+    public void setRadioText(Questionnaire q){
+        mRadio1.setText(q.getmOption1());
+        mRadio2.setText(q.getmOption2());
+        mRadio3.setText(q.getmOption3());
+        mRadio4.setText(q.getmOption4());
+    }
+
+    public void setBoxText(Questionnaire q){
+        mButtonChoice1.setText(q.getmOption1());
+        mButtonChoice2.setText(q.getmOption2());
+        mButtonChoice3.setText(q.getmOption3());
+        mButtonChoice4.setText(q.getmOption4());
+    }
+
+    public void setRadioText_old(Questionnaire q){
         int i = 1;
-        while(iterator1.hasNext()){
+        while(rdIterator.hasNext()){
             switch (i){
-                case 1: iterator1.next().setText(q.getmOption1());
+                case 1: rdIterator.next().setText(q.getmOption1());
                 break;
-                case 2: iterator1.next().setText(q.getmOption2());
+                case 2: rdIterator.next().setText(q.getmOption2());
                 break;
-                case 3: iterator1.next().setText(q.getmOption3());
+                case 3: rdIterator.next().setText(q.getmOption3());
+                break;
+                case 4: rdIterator.next().setText(q.getmOption4());
+                break;
+            }
+            i += 1;
+        }
+    }
+
+    public void setBoxText_old(Questionnaire q){
+        int i = 1;
+        while(bxIterator.hasNext()){
+            switch (i){
+                case 1: bxIterator.next().setText(q.getmOption1());
                     break;
-                case 4: iterator1.next().setText(q.getmOption4());
+                case 2: bxIterator.next().setText(q.getmOption2());
+                    break;
+                case 3: bxIterator.next().setText(q.getmOption3());
+                    break;
+                case 4: bxIterator.next().setText(q.getmOption4());
                     break;
             }
             i += 1;
         }
     }
 
-    public void setBoxText(Questionnaire q, ArrayList<CheckBox> radio){
-        Iterator<CheckBox> iterator1 = radio.iterator();
-        int i = 1;
-        while(iterator1.hasNext()){
-            switch (i){
-                case 1: iterator1.next().setText(q.getmOption1());
-                    break;
-                case 2: iterator1.next().setText(q.getmOption2());
-                    break;
-                case 3: iterator1.next().setText(q.getmOption3());
-                    break;
-                case 4: iterator1.next().setText(q.getmOption4());
-                    break;
-            }
-            i += 1;
+    public void setOption(Questionnaire question){
+        switch (question.getTypeRep()){
+            case "radio": setRadioText(question);
+            break;
+            case "checkbox": setBoxText(question);
+            break;
         }
     }
 
-
-    public  void updateView(Questionnaire question){
-        if (question.getTypeRep().equals("radio")){
-            setRadioText(question, listRadio);
-        }else if (question.getTypeRep().equals("checkbox")){
-            setBoxText(question, listBox);
-        } else Toast.makeText(this, "type de question "+question.getTypeRep()+"non pris en compte"
-                , Toast.LENGTH_SHORT).show();
-
+    public  void updateQuizz(Questionnaire question){
         mquizzQuest.setText(question.getmQuestion());
         mAnswer = question.getmRep();
         mQuestionNumber = question.getId();
         nbQuizz = questionnaires.size();
         updateLevel();
     }
-    public void showLayout(String typeRep){
-        if (typeRep.equals("radio")) {
-            if (checkboxLayout.getVisibility() == View.GONE){
+
+    public void showLayout(Questionnaire question){
+        if (question.getTypeRep().equals("checkbox")) {
                 radioLayout.setVisibility(View.GONE);
                 checkboxLayout.setVisibility(View.VISIBLE);
-            }
-            int selectedRadio = grpRadio.getCheckedRadioButtonId();
-            RadioButton rbtn = (RadioButton)findViewById(selectedRadio);
-            if (rbtn.getText().equals(mAnswer)){
-                Toast.makeText(MainActivity.this, "Good answer", Toast.LENGTH_LONG).show();
-            }
-            else
-                Toast.makeText(MainActivity.this, "Wrong answer", Toast.LENGTH_LONG).show();
-            //mQuestionNumber = mQuestionNumber + 1;
-        } else if (typeRep.equals("checkbox")){
-            if (radioLayout.getVisibility() == View.GONE){
+        } else if (question.getTypeRep().equals("radio")){
                 checkboxLayout.setVisibility(View.GONE);
                 radioLayout.setVisibility(View.VISIBLE);
-            }
         } else {
             Toast.makeText(MainActivity.this, "Choose an option please!", Toast.LENGTH_LONG).show();
         }
-        //mQuestionNumber = mQuestionNumber + 1;
+
+    }
+
+    public  void updateView(Questionnaire question){
+        updateQuizz(question);
+        setOption(question);
+        showLayout(question);
     }
 
     private ArrayList<Questionnaire> ParseXML() throws IOException {
@@ -315,7 +355,6 @@ public class MainActivity extends AppCompatActivity
             InputStream is = null;
             try {
                 is = getAssets().open("questions.xml");
-                //Toast.makeText(MainActivity.this, "file opened: ", Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -370,22 +409,6 @@ public class MainActivity extends AppCompatActivity
         return questionnaires;
     }
 
-    private void printQuestions(ArrayList<Questionnaire> questionnaires){
-        StringBuilder builder = new StringBuilder();
-
-        for (Questionnaire q: questionnaires){
-            builder.append(q.getId()).append("\n").
-                    append(q.getmQuestion()).append("\n").
-                    append(q.getmOption1()).append("\n").
-                    append(q.getmOption2()).append("\n").
-                    append(q.getmOption3()).append("\n").
-                    append(q.getmOption4()).append("\n");
-           // this.questionnaires.add(q) ;
-            //mquizzQuest.setText(q.getTypeRep()+"\n"+q.getmQuestion()+"\n"+q.getmOption4());
-        }
-
-    }
-
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
@@ -402,101 +425,10 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    private void updateQuestion(){
-        if (mQuestionNumber == nbQuizz) {
-            //Toast.makeText(MainActivity.this, "Fin du Test", Toast.LENGTH_LONG).show();
-            mQuestionNumber = 0;
-            updateRadio();
-        }
-        else{
-            mquizzQuest.setText(""+mQuestionLibrary.getQuestion(mQuestionNumber));
-            mButtonChoice1.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 0));
-            mButtonChoice2.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 1));
-            mButtonChoice3.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 2));
-            mButtonChoice4.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 3));
-
-            mAnswer = mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
-        }
-    }
-    //
-    private void updateRadio(){
-        if (mQuestionNumber == nbQuizz) {
-            //Toast.makeText(MainActivity.this, "Fin du Test", Toast.LENGTH_LONG).show();
-            mQuestionNumber = 0;
-
-            updateQuestion();
-        }
-        else{
-            mquizzQuest.setText(""+mQuestionLibrary.getQuestion(mQuestionNumber));
-            mRadio1.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 0));
-            mRadio2.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 1));
-            mRadio3.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 2));
-            mRadio4.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 3));
-
-            mAnswer = mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
-        }
-    }
-
     @SuppressLint("SetTextI18n")
     private  void updateLevel(){
         mScoreView.setText(""+mQuestionNumber+"/"+nbQuizz);
     }
-
-    //**
-    private void updateQuestion_v2(){
-        //mquizzQuest.setText(iterator.next().getTypeRep());
-
-        //mTypeRep = "checkbox"; //iterator.next().getTypeRep();
-        if (!iterator.hasNext()) {
-            Toast.makeText(MainActivity.this, "Fin du Test", Toast.LENGTH_LONG).show();
-            mQuestionNumber = 0;
-            updateRadio_v2();
-        }
-        else if (iterator.next().getTypeRep() == "checkbox"){
-            mquizzQuest.setText(""+iterator.next().getmQuestion());
-            mButtonChoice1.setText(""+iterator.next().getmOption1());
-            mButtonChoice2.setText(""+iterator.next().getmOption2());
-            mButtonChoice3.setText(""+iterator.next().getmOption3());
-            mButtonChoice4.setText(""+iterator.next().getmOption4());
-
-            mAnswer = iterator.next().getmRep();
-
-            //mAnswer = mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
-        }else if (iterator.next().getTypeRep() == "radio"){
-            mquizzQuest.setText(""+iterator.next().getmQuestion());
-            mRadio1.setText(""+iterator.next().getmOption1());
-            mRadio2.setText(""+iterator.next().getmOption2());
-            mRadio3.setText(""+iterator.next().getmOption3());
-            mRadio4.setText(""+iterator.next().getmOption4());
-
-            mAnswer = iterator.next().getmRep();
-                    //mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
-        }
-        else Toast.makeText(MainActivity.this, "Erreur inconnue", Toast.LENGTH_LONG).show();
-
-    }
-    //
-    private void updateRadio_v2(){
-        if (mQuestionNumber == nbQuizz) {
-            //Toast.makeText(MainActivity.this, "Fin du Test", Toast.LENGTH_LONG).show();
-            mQuestionNumber = 0;
-            updateQuestion_v2();
-        }
-        else{
-            mquizzQuest.setText(""+mQuestionLibrary.getQuestion(mQuestionNumber));
-            mRadio1.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 0));
-            mRadio2.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 1));
-            mRadio3.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 2));
-            mRadio4.setText(""+mQuestionLibrary.getChoice(mQuestionNumber, 3));
-
-            mAnswer = mQuestionLibrary.getCorrectAnswer(mQuestionNumber);
-        }
-    }
-    /*
-    private  void updateLevel(){
-        mScoreView.setText(""+(mQuestionNumber+1)+"/"+nbQuizz);
-    }
-    */
 
     //**
 

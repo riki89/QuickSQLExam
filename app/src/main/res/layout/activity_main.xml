@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -52,9 +51,18 @@
                 android:layout_weight="0.08"
                 android:text="See the image and answer the question below"
                 android:textAlignment="center"
+                android:textColor="#0f0f00" />
+
+            <TextView
+                android:id="@+id/quizzQuest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="0.08"
+                android:textAlignment="center"
                 android:textColor="#fafafa" />
 
-            <ScrollView
+            <!--ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -66,7 +74,7 @@
                     android:layout_weight="0.08"
                     android:textAlignment="center"
                     android:textColor="#fafafa" />
-            </ScrollView>
+            </ScrollView-->
         </LinearLayout>
 
         <LinearLayout
@@ -75,7 +83,7 @@
             android:layout_height="200dp"
             android:layout_weight="0.46"
             android:orientation="vertical"
-            android:weightSum="1">
+            android:weightSum="100">
 
             <LinearLayout
                 android:id="@+id/radioLayout"
@@ -160,11 +168,6 @@
                     android:layout_height="wrap_content"
                     android:text="Option 4" />
 
-                <CheckBox
-                    android:id="@+id/checkBox5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Option 5" />
             </LinearLayout>
 
         </LinearLayout>
