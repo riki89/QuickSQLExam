@@ -8,7 +8,7 @@
         <option2>Select Query Language</option2>
         <option3>Select Quality Language</option3>
         <option4>Structured Quality Language</option4>
-        <good>Structured Query Language</good>
+        <good>2</good>
     </question>
     <question>
         <id>2</id>
@@ -27,7 +27,7 @@
         <option2>DELETE FROM SalesData</option2>
         <option3>DELETE * FROM SalesData</option3>
         <option4>DELETE ALL SalesData</option4>
-        <good>Conakry</good>
+        <good>2</good>
     </question>
     <question>
         <id>4</id>
@@ -36,7 +36,7 @@
         <option1>A set of SQL statements stored and executed as a single entity.</option1>
         <option2>A process for data export/import.</option2>
         <option3>Data stored in a database.</option3>
-        <good>Malick</good>
+        <good>1</good>
     </question>
     <question>
         <id>5</id>
@@ -45,7 +45,7 @@
         <option1>SORT</option1>
         <option2>ARRANGE</option2>
         <option3>ORDER BY</option3>
-        <good>Malick</good>
+        <good>1</good>
     </question>
     <question>
         <id>6</id>
@@ -54,7 +54,7 @@
         <option1>represent a missing or unknown value. NULL in SQL represents nothing.</option1>
         <option2>represent 0 value.</option2>
         <option3>represent positive infinity.</option3>
-        <good>represent negative infinity.</good>
+        <good>3</good>
     </question>
     <question>
         <id>7</id>

@@ -28,8 +28,9 @@ public class Questionnaire {
     private String imgQuizz;
     private String mQuestion;
     private String mRep;
+    private int goodRep;
     private String typeRep;
-    private String[][] options;
+    private String[] options = new String[5];
     private String mOption1;
     private String mOption2;
     private String mOption3;
@@ -51,6 +52,10 @@ public class Questionnaire {
 
     public void setmRep(String mRep) { this.mRep = mRep; }
 
+    public int getGoodRep(){ return this.goodRep; }
+
+    public void setGoodRep(int goodRep){ this.goodRep = goodRep; }
+
     public String getmQuestion() { return this.mQuestion; }
 
     public void setmQuestion(String mQ1) { this.mQuestion = mQ1; }
@@ -58,6 +63,13 @@ public class Questionnaire {
     public  String getTypeRep(){return  this.typeRep;}
 
     public  void  setTypeRep(String typeRep){ this.typeRep = typeRep;}
+
+    public void setOption(int i, String args){
+            this.options[i] = args;
+            System.out.printf("\n agrs[%d]: %s\n", i, args);
+    }
+
+    public String getOption(int i){ return  this.options[i]; }
 
     public String getmOption1() { return this.mOption1; }
 
